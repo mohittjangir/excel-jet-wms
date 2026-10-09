@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function SimpleLoginModal() {
   const router = useRouter();
   const { isLoginModalOpen, closeLoginModal, login } = useAuth();
-  const [selectedRole, setSelectedRole] = useState<"ADMIN" | "STAFF">("ADMIN");
+  const [selectedRole, setSelectedRole] = useState<"ADMIN" | "STAFF">("STAFF");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

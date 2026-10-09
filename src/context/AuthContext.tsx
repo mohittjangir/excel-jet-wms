@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("exceljet_wms_user");
       }
     } else if (!isLoggedOut) {
-      const defaultUser = PRESET_USERS["admin@warehouse.com"].user;
+      const defaultUser = PRESET_USERS["rahul@warehouse.com"].user;
       setUser(defaultUser);
       localStorage.setItem("exceljet_wms_user", JSON.stringify(defaultUser));
     }
