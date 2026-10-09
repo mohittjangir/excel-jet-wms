@@ -53,6 +53,11 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    const userRole = request.headers.get('x-user-role');
+    if (userRole === 'STAFF') {
+      return NextResponse.json({ error: 'Forbidden: Admin access required to update product records.' }, { status: 403 });
+    }
+
     const body = await request.json();
     if (!body.id) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });

@@ -49,8 +49,10 @@ function DashboardContent() {
   const visibleTabs = useMemo(() => {
     return [
       { id: 'overview', label: isAdmin ? 'Executive Overview' : 'Floor Operations', icon: LayoutDashboard },
-      { id: 'stock-in', label: 'Stock In (+)', icon: ArrowDownLeft },
-      { id: 'stock-out', label: 'Stock Out (-)', icon: ArrowUpRight },
+      ...(!isAdmin ? [
+        { id: 'stock-in', label: 'Stock In (+)', icon: ArrowDownLeft },
+        { id: 'stock-out', label: 'Stock Out (-)', icon: ArrowUpRight },
+      ] : []),
       { id: 'masters', label: 'WMS Data Masters', icon: Boxes },
       { id: 'inventory', label: 'Inventory & Adjustments', icon: ClipboardList },
       { id: 'reports', label: 'WMS Reports', icon: FileText },

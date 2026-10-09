@@ -93,12 +93,14 @@ export default function InventoryModule() {
           <p className="text-xs text-[#64748B] mt-0.5">Track current stock levels, process cycle count adjustments & audit movements.</p>
         </div>
 
-        <button 
-          onClick={() => { setFeedback(null); setShowAdjModal(true); }}
-          className="px-4 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm"
-        >
-          <Sliders className="w-4 h-4 text-[#0077C8]" /> Process Stock Adjustment
-        </button>
+        {isAdmin && (
+          <button 
+            onClick={() => { setFeedback(null); setShowAdjModal(true); }}
+            className="px-4 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm"
+          >
+            <Sliders className="w-4 h-4 text-[#0077C8]" /> Process Stock Adjustment
+          </button>
+        )}
       </div>
 
       {/* Sub-tabs */}
@@ -111,14 +113,16 @@ export default function InventoryModule() {
         >
           <Boxes className="w-3.5 h-3.5" /> Current Stock Ledger
         </button>
-        <button
-          onClick={() => setActiveTab('adjustments')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === 'adjustments' ? 'bg-[#0F172A] text-white' : 'bg-[#F8FAFC] text-[#64748B]'
-          }`}
-        >
-          <Sliders className="w-3.5 h-3.5" /> Stock Adjustments Log
-        </button>
+        {isAdmin && (
+          <button
+            onClick={() => setActiveTab('adjustments')}
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              activeTab === 'adjustments' ? 'bg-[#0F172A] text-white' : 'bg-[#F8FAFC] text-[#64748B]'
+            }`}
+          >
+            <Sliders className="w-3.5 h-3.5" /> Stock Adjustments Log
+          </button>
+        )}
         <button
           onClick={() => setActiveTab('history')}
           className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${

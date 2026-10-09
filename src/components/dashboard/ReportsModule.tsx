@@ -3,9 +3,15 @@
 import { useEffect, useState } from "react";
 import { BarChart3, Clock, TrendingUp, Download, PieChart, Layers } from "lucide-react";
 
+import { useAuth } from "@/context/AuthContext";
+import { ShieldAlert } from "lucide-react";
+
 type ReportTab = 'valuation' | 'ageing' | 'movement';
 
 export default function ReportsModule() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'ADMIN';
+
   const [activeTab, setActiveTab] = useState<ReportTab>('valuation');
   const [reports, setReports] = useState<{
     stockReport: any[];
@@ -20,10 +26,14 @@ export default function ReportsModule() {
 
   useEffect(() => {
     let isSubscribed = true;
+    if (!isAdmin) return;
+
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const res = await fetch('/api/wms/reports');
+        const res = await fetch('/api/wms/reports', {
+          headers: { 'x-user-role': user?.role || 'STAFF' }
+        });
         if (res.ok && isSubscribed) {
           const data = await res.json();
           setReports(data);
@@ -36,7 +46,17 @@ export default function ReportsModule() {
     };
     fetchReports();
     return () => { isSubscribed = false; };
-  }, []);
+  }, [isAdmin, user]);
+
+  if (!isAdmin) {
+    return (
+      <div className="bg-white border border-[#E2E8F0] rounded-xl p-8 shadow-sm text-center">
+        <ShieldAlert className="w-12 h-12 text-[#F59E0B] mx-auto mb-3" />
+        <h3 className="text-lg font-bold text-[#0F172A] mb-1">Admin Access Required</h3>
+        <p className="text-xs text-[#64748B]">Executive inventory reports, asset valuations, and ageing analytics are restricted to Admin personnel.</p>
+      </div>
+    );
+  }
 
   const totalInventoryValue = reports.stockReport.reduce((acc, r) => acc + (r.totalValue || 0), 0);
 

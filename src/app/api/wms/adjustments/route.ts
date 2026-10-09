@@ -15,6 +15,10 @@ export async function POST(request: NextRequest) {
     const userRole = request.headers.get('x-user-role');
     const userName = request.headers.get('x-user-name') || 'Operator';
 
+    if (userRole === 'STAFF') {
+      return NextResponse.json({ error: 'Forbidden: Admin access required to make manual stock adjustments and write-offs.' }, { status: 403 });
+    }
+
     const body = await request.json();
     if (!body.productId || !body.quantity) {
       return NextResponse.json({ error: 'Product ID and quantity are required' }, { status: 400 });
